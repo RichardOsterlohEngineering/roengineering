@@ -1,0 +1,50 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="../behaviors/app-localize-behavior.html">
+
+
+<dom-module id="app-data">
+  <template>
+    <iron-ajax auto url="[[configSource]]" handle-as="json" last-response="{{app.data}}"></iron-ajax>
+    <iron-ajax auto url="[[postsSource]]" handle-as="json" on-response="_reversePosts"></iron-ajax>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+      Polymer({
+        is: 'app-data',
+        behaviors: [
+          ROE.AppLocalizeBehavior
+        ],
+        properties: {
+          configSource: {
+            type: String,
+            value: 'data/config.json'
+          },
+          postsSource: {
+            type: String,
+            value: 'data/blog.json'
+          },
+          posts: {
+            type: Array,
+            notify: true
+          },
+          app: {
+            type: Object,
+            notify: true
+          },
+          _configs: Object,
+          _english: Object
+        },
+        ready: function () {
+          this.app = this.app || {};
+        },
+        _reversePosts: function (response) {
+          this.posts = response.detail.response.reverse();
+        }
+      });
+    }());
+  </script>
+</dom-module>
