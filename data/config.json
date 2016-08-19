@@ -6,11 +6,6 @@
         "backgroundImage": "/images/backgrounds/header.jpg",
         "fontColor": "#fff",
         "tabBarColor": "#fff",
-        "video": {
-          "title": "GDG DevFest Ukraine 2016",
-          "youtubeId": "DfMnJAzOFng",
-          "text": "See how it was in 2015"
-        },
         "hideLogo": true,
         "minHeight": "360px"
       }
@@ -18,14 +13,7 @@
     "blog": {
       "headerSettings": {
         "backgroundColor": "#03a9f4",
-        "fontColor": "#fff",
-        "tabBarColor": "#fff"
-      }
-    },
-    "hub": {
-      "headerSettings": {
-        "backgroundImage": "images/backgrounds/home.jpg",
-        "backgroundColor": "#4caf50",
+        "backgroundImage": "/images/backgrounds/header.jpg",
         "fontColor": "#fff",
         "tabBarColor": "#fff"
       }
@@ -42,12 +30,6 @@
     }
   ],
   "url": "https://roengineering-a69c9.firebaseapp.com/",
-  "mailchimp": {
-    "url": "https://gdg.us11.list-manage.com/subscribe/post?u=b7e853a79164ddfdbda3ed77b&amp;id=7993e39fbe",
-    "name": "b_b7e853a79164ddfdbda3ed77b_7993e39fbe"
-  },
-  "partnershipProposition": "http://bit.ly/df16-sponsor",
-  "disqusShortName": "hoverboard-gdg-x",
   "languages": [
     {
       "name": "English",
@@ -101,7 +83,6 @@
       "url": "https://www.linkedin.com/in/richardosterloh"
     }
   ],
-  "tweetsSource": "/data/tweets.json",
   "gallery": {
     "albumUrl": "https://plus.google.com/events/gallery/cc6tosp4ohkp6qj9pg5jb4g6o3k?sort=1",
     "photos": {
@@ -111,28 +92,5 @@
         "/images/backgrounds/2015_3.jpg"
       ]
     }
-  },
-  "location": {
-    "apiKey": "",
-    "link": "https://www.facebook.com/expopivdennij",
-    "pointer": {
-      "latitude": 49.809841,
-      "longitude": 23.972805,
-      "zoom": 15
-    },
-    "mapCenter": {
-      "latitude": 49.809841,
-      "longitude": 23.982805
-    },
-    "images": [
-      "/images/backgrounds/location_1.jpg",
-      "/images/backgrounds/location_2.jpg",
-      "/images/backgrounds/location_3.jpg"
-    ]
-  },
-  "videosSessionsUrl": "https://www.youtube.com/playlist?list=PLt8lEzcLNl31AX3-ONkkWmDOZezu9Cmnv",
-  "callToAction": {
-    "videoTitle": "action-title",
-    "videoId": "DfMnJAzOFng"
   }
 }

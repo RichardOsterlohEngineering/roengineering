@@ -9,8 +9,7 @@
 
 <link rel="import" href="../../bower_components/neon-animation/neon-shared-element-animatable-behavior.html">
 
-<!-- <link rel="import" href="../../bower_components/disqus-comments/disqus-comments.html"> -->
-
+<link rel="import" href="../behaviors/page-behavior.html">
 <link rel="import" href="../elements/footer-block.html">
 <link rel="import" href="../behaviors/utils-behavior.html">
 
@@ -37,6 +36,7 @@
         @apply(--layout-fit);
         min-height: 50vh;
         max-height: 50vh;
+        pointer-events: none;
       }
       .post-wrapper {
         background: #fff;
@@ -131,10 +131,6 @@
             </template>
           </div>
         </div>
-        <!--<div class="container">
-          <disqus-comments id="disqus" shortname="[[app.data.disqusShortName]]" identifier="[[_post.id]]"
-                           title="[[_post.title]]" https></disqus-comments>
-        </div>-->
       </div>
 
 
@@ -158,15 +154,17 @@
         behaviors: [
           Polymer.NeonAnimationRunnerBehavior,
           Polymer.NeonSharedElementAnimatableBehavior,
+          ROE.PageBehavior,
           ROE.UtilsBehavior
         ],
         properties: {
-          app: Object,
           postId: {
             type: String,
             notify: true
           },
-          posts: Array,
+          posts: {
+            type: Array
+          },
           _loaded: {
             type: Boolean,
             value: false
@@ -253,7 +251,6 @@
             this.$.animationWrapper.style.display = 'block';
           }, 100);
           this.playAnimation('postLoaded');
-          //this.$.disqus.reset();
           this.postId = null;
           ROE.Analytics.trackEvent('blog', 'open post', this._post.title);
         },

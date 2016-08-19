@@ -5,11 +5,10 @@
     'use strict';
     ROE.UtilsBehavior = {
       _getIndexByProperty: function (array, property, value) {
-        if (array) {
-          for (var i = 0, length = array.length; i < length; i++) {
-            if (array[i][property].toString() === value.toString()) {
-              return i;
-            }
+        if (!array) return null;
+        for (var i = 0, length = array.length; i < length; i++) {
+          if (array[i][property].toString() === value.toString()) {
+            return i;
           }
         }
       },
@@ -24,11 +23,6 @@
       _toArray: function (obj) {
         return Object.keys(obj).map(function (key) {
           return obj[key];
-        });
-      },
-      _toInheritedArray: function (obj) {
-        return Object.keys(obj).map(function (key) {
-          return {name: key, value: obj[key]}
         });
       },
       _addToValue: function (value, addition) {

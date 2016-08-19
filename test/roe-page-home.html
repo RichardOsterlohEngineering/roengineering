@@ -12,34 +12,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <html>
 <head>
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>kart-home</title>
+  <title>roe-home</title>
 
   <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../bower_components/web-component-tester/browser.js"></script>
 
   <!-- Import the element to test -->
-  <link rel="import" href="../src/my-view1.html">
+  <link rel="import" href="../src/pages/home-page.html">
 
 </head>
 <body>
 
   <test-fixture id="basic">
     <template>
-       <my-view1></my-view1>
+       <home-page></home-page>
     </template>
   </test-fixture>
 
   <script>
-    suite('my-view1 tests', function() {
+    suite('home-page tests', function() {
       var home;
 
       setup(function() {
         home = fixture('basic');
       });
 
-      test('Number in circle should be 1', function() {
-        var circle = Polymer.dom(home.root).querySelector('.circle');
-        assert.equal(circle.textContent, '1');
+      test('Page Title should be Home', function() {
+        var pageTitle = Polymer.dom(home.root).querySelector('.page-title');
+        assert.equal(pageTitle.textContent, 'home');
       })
     });
   </script>

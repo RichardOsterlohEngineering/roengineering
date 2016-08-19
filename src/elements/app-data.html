@@ -2,8 +2,6 @@
 
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
-<link rel="import" href="../behaviors/app-localize-behavior.html">
-
 
 <dom-module id="app-data">
   <template>
@@ -15,9 +13,10 @@
       'use strict';
       Polymer({
         is: 'app-data',
-        behaviors: [
-          ROE.AppLocalizeBehavior
-        ],
+        app: {
+          type: Object,
+          notify: true
+        },
         properties: {
           configSource: {
             type: String,
@@ -30,13 +29,7 @@
           posts: {
             type: Array,
             notify: true
-          },
-          app: {
-            type: Object,
-            notify: true
-          },
-          _configs: Object,
-          _english: Object
+          }
         },
         ready: function () {
           this.app = this.app || {};

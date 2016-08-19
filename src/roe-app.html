@@ -16,7 +16,7 @@
 
 <link rel="import" href="effects/fade-effect.html">
 <link rel="import" href="behaviors/utils-behavior.html">
-<link rel="import" href="behaviors/app-localize-behavior.html">
+<link rel="import" href="behaviors/localize-behavior.html">
 <link rel="import" href="elements/app-data.html">
 <link rel="import" href="elements/drawer-block.html">
 <link rel="import" href="elements/toolbar-block.html">
@@ -99,8 +99,9 @@
       data="{{routeData}}"
       tail="{{subRoute}}"></app-route>
 
-    <app-data posts="{{posts}}"
-              app="{{app}}"></app-data>
+    <app-data
+      app="{{app}}"
+      posts="{{posts}}"></app-data>
 
     <app-drawer-layout drawer-width="599px" force-narrow>
       <app-drawer id="drawer" swipe-open="[[app.isPhoneSize]]">
@@ -113,12 +114,9 @@
         <div class="image-overlay-wrapper" show$="[[app.headerSettings.backgroundImage]]">
           <div class="image-overlay" fade></div>
         </div>
-        <toolbar-block app="{{app}}"
-                       primary sticky></toolbar-block>
+        <toolbar-block app="{{app}}" primary sticky></toolbar-block>
 
-        <header-content app="{{app}}"
-                        selected-day="{{selectedDay}}"
-                        fade></header-content>
+        <header-content app="{{app}}" fade></header-content>
       </app-header>
 
       <div class="main-content">
@@ -152,7 +150,7 @@
       Polymer({
         is: 'roe-app',
         behaviors: [
-          ROE.AppLocalizeBehavior,
+          ROE.LocalizeBehavior,
           ROE.UtilsBehavior
         ],
         properties: {
@@ -164,10 +162,6 @@
                 lang: 'en'
               };
             }
-          },
-          loadExternalResources: {
-            type: Boolean,
-            value: false
           },
           page: {
             type: String,
@@ -204,7 +198,7 @@
           }
         },
         stylesChanged: function () {
-          if(!this.app.headerSettings) return;
+          if (!this.app.headerSettings) return;
           this.customStyle['--header-background'] = this.app.headerSettings.backgroundColor;
           this.customStyle['--header-color'] = this.app.headerSettings.fontColor;
           this.customStyle['--header-background-image'] = 'url(' + this.app.headerSettings.backgroundImage + ')';

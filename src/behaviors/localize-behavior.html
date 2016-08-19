@@ -5,7 +5,7 @@
 <script>
   (function () {
     'use strict';
-    ROE.AppLocalizeBehaviorImpl = {
+    ROE.LocalizeBehaviorImpl = {
       properties: {
         app: {
           type: Object,
@@ -13,10 +13,6 @@
           value: function () {
             return {};
           }
-        },
-        loadExternalResources: {
-          type: Boolean,
-          value: true
         }
       },
       listeners: {
@@ -29,30 +25,34 @@
         'setLanguage(app.lang)'
       ],
       loadAppResources: function (lang) {
+        if (!lang) return;
         var url = '/data/' + lang + '/resources.json';
         this.loadResources(this.resolveUrl(url));
       },
       setLanguage: function (lang) {
-        if (lang) {
+        if (!lang) return;
+        if (this.app.resources && !this.app.resources[lang]) {
           this.loadAppResources(lang);
+        } else {
           this.set('language', lang);
         }
       },
       __onRequestResponse: function (event) {
         if (!event.response || !this.app) return;
-        var resource = {};
-        resource[this.language] = event.response;
-        this.resources = resource;
-//        this.set('app.resources', resource);
+        var resource = this.app.resources || {};
+        resource[this.app.lang] = event.response;
+        this.set('resources', resource);
+        this.set('app.resources', resource);
         this.fire('app-resources-loaded');
       },
       _onLocalesLoaded: function (event) {
         event.stopPropagation();
+        this.set('language', this.app.lang);
       }
     };
-    ROE.AppLocalizeBehavior = [
+    ROE.LocalizeBehavior = [
       Polymer.AppLocalizeBehavior,
-      ROE.AppLocalizeBehaviorImpl
+      ROE.LocalizeBehaviorImpl
     ];
   }());
 </script>

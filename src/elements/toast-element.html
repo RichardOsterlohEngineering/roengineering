@@ -22,11 +22,12 @@
       }
     </style>
 
-    <paper-toast id="internalToast"
-                 class$="{{_computeClass(_tapHandler)}}"
-                 duration="[[duration]]"
-                 text="[[text]]"
-                 on-tap="_handleTap" layout horizontal justified>
+    <paper-toast
+      id="internalToast"
+      class$="{{_computeClass(_tapHandler)}}"
+      duration="[[duration]]"
+      text="[[text]]"
+      on-tap="_handleTap" layout horizontal justified>
 
       <span class="toast-action"
             on-click="_handleAction" hidden$="{{!action}}">[[action]]</span>
@@ -41,7 +42,7 @@
       Polymer({
         is: 'toast-element',
         behaviors: [
-          ROE.AppLocalizeBehavior
+          ROE.LocalizeBehavior
         ],
         properties: {
           action: {
@@ -61,7 +62,9 @@
             value: false
           },
           _listeners: {
-            value: function() { return []; }
+            value: function() {
+              return [];
+            }
           },
           _tapHandler: {
             value: null
@@ -73,14 +76,14 @@
         _actionChanged: function () {
           Polymer.dom(this).textContent = this.action ? this.action : null;
         },
-        show: function() {
+        show: function () {
           this.$.internalToast.show();
         },
-        close: function() {
+        close: function () {
           this.$.internalToast.close();
         },
-        showMessage: function(message, opt_tapHandler, opt_action,
-                              opt_actionHandler, opt_duration) {
+        showMessage: function (message, opt_tapHandler, opt_action,
+                               opt_actionHandler, opt_duration) {
           this.close();
           // Override duration just for this toast.
           var originalDuration = this.duration;
@@ -95,14 +98,14 @@
           this.fire('toast-message', {message: message});
           this.duration = originalDuration; // reset site-wide duration.
         },
-        _handleTap: function() {
+        _handleTap: function () {
           if (typeof this._tapHandler == 'function' && !this._handledAction) {
             this._tapHandler();
             this.$.internalToast.close();
           }
           this._handledAction = false;
         },
-        _handleAction: function(e, detail) {
+        _handleAction: function (e, detail) {
           if (typeof this._actionHandler == 'function') {
             e.stopPropagation();
             this._actionHandler();
@@ -112,11 +115,11 @@
             this.$.internalToast.close();
           }
         },
-        _handleOverlayClosed: function() {
+        _handleOverlayClosed: function () {
           this._tapHandler = null;
         },
-        _computeClass: function(tapHandler) {
-          return tapHandler ? 'clickable': '';
+        _computeClass: function (tapHandler) {
+          return tapHandler ? 'clickable' : '';
         }
       });
     }());
