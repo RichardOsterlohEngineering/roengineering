@@ -7,15 +7,15 @@
     "src/pages/home-page.html",
     "src/pages/post-page.html"
   ],
-  "sourceGlobs": [
+  "sources": [
     "data/**/*",
-    "src/**/*",
     "images/**/*",
     "scripts/**/*",
-    "bower.json"
+    "src/**/*",
+    "bower.json",
+    "manifest.json"
   ],
   "includeDependencies": [
-    "manifest.json",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
   ]
 }

@@ -13,7 +13,7 @@
     "blog": {
       "headerSettings": {
         "backgroundColor": "#03a9f4",
-        "backgroundImage": "/images/backgrounds/header.jpg",
+        "backgroundImage": "/images/backgrounds/home.png",
         "fontColor": "#fff",
         "tabBarColor": "#fff"
       }
@@ -61,6 +61,7 @@
       }
     ]
   },
+  "hashtag": "ROEng",
   "social": [
     {
       "name": "twitter",
@@ -84,12 +85,12 @@
     }
   ],
   "gallery": {
-    "albumUrl": "https://plus.google.com/events/gallery/cc6tosp4ohkp6qj9pg5jb4g6o3k?sort=1",
+    "albumUrl": "https://plus.google.com/u/0/collection/wE4hqB",
     "photos": {
-      "big": "/images/backgrounds/2015_1.jpg",
+      "big": "/images/backgrounds/DragonBoard_820.jpg",
       "small": [
-        "/images/backgrounds/2015_2.jpg",
-        "/images/backgrounds/2015_3.jpg"
+        "/images/backgrounds/Macro.jpg",
+        "/images/backgrounds/FishEye.jpg"
       ]
     }
   }

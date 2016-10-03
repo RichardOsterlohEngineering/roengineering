@@ -52,6 +52,7 @@
         @apply(--layout-fixed-top);
         --app-header-background-front-layer: {
           background-image: var(--header-background-image);
+          background-position: 50% 50%;
           transition: background-image 0.5s;
         };
         --app-header-background-rear-layer: {
@@ -103,7 +104,7 @@
       app="{{app}}"
       posts="{{posts}}"></app-data>
 
-    <app-drawer-layout drawer-width="599px" force-narrow>
+    <app-drawer-layout id="drawerLayout" drawer-width="599px" force-narrow>
       <app-drawer id="drawer" swipe-open="[[app.isPhoneSize]]">
         <template is="dom-if" if="[[app.isPhoneSize]]">
           <drawer-block app={{app}} route-data="{{routeData}}" drawer></drawer-block>
@@ -208,6 +209,7 @@
           this.customStyle['--min-header-height'] = this.app.headerSettings.minHeight;
           document.getElementsByName('theme-color')[0].content = this.app.headerSettings.backgroundColor;
           this.updateStyles();
+          this.$.header.resetLayout();
         },
         _pageChanged: function (page) {
           if (page && page !== 'home') {

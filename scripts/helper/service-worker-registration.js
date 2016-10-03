@@ -82,8 +82,8 @@ ROE.ServiceWorkerRegistration = (function () {
   }
 
   return {
-    register,
-    URL,
-    SCOPE
+    register: register,
+    URL: URL,
+    SCOPE: SCOPE
   };
 })();

@@ -12,7 +12,7 @@
   <meta name="author" content="Richard Osterloh">
 
   <link rel="canonical" href="https://roengineering.tech">
-  <link rel="shortcut icon" sizes="32x32" href="images/favicon/favicon-32.png">
+  <link rel="shortcut icon" sizes="32x32" href="/images/favicon/favicon-32.png">
 
   <!-- See https://goo.gl/OOhYW5 -->
   <link rel="manifest" href="manifest.json">
@@ -30,15 +30,15 @@
   <meta name="apple-mobile-web-app-title" content="Richard Osterloh Engineering Ltd">
 
   <!-- Homescreen icons. -->
-  <link rel="shortcut icon" href="images/favicon/favicon-72.png">
-  <link rel="apple-touch-icon" href="images/touch/homescreen-48.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="images/touch/homescreen-72.png">
-  <link rel="apple-touch-icon" sizes="96x96" href="images/touch/homescreen-96.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="images/touch/homescreen-144.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="images/touch/homescreen-192.png">
+  <link rel="shortcut icon" href="/images/favicon/favicon-72.png">
+  <link rel="apple-touch-icon" href="/images/touch/homescreen-48.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/touch/homescreen-72.png">
+  <link rel="apple-touch-icon" sizes="96x96" href="/images/touch/homescreen-96.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/touch/homescreen-144.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/images/touch/homescreen-192.png">
 
   <!-- Tile icon for Win8 (144x144 + tile color) -->
-  <meta name="msapplication-TileImage" content="images/touch/homescreen-144.png">
+  <meta name="msapplication-TileImage" content="/images/touch/homescreen-144.png">
   <meta name="msapplication-TileColor" content="#ECEFF1">
   <meta name="msapplication-tap-highlight" content="no">
 
@@ -104,10 +104,11 @@
 <roe-app id="roeapp"></roe-app>
 
 <script src="scripts/helper/util.js"></script>
-<script src="scripts/metrics.js"></script>
 <script src="scripts/helper/elements.js"></script>
-<script src="scripts/helper/service-worker-registration.js"></script>
 <script src="scripts/bootstrap.js"></script>
+<script id="sw-registration" src="scripts/helper/service-worker-registration.js"></script>
+<script src="scripts/helper/deferred.js"></script>
+<script src="scripts/metrics.js"></script>
 
 </body>
 </html>

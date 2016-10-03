@@ -112,7 +112,7 @@
           },
           animationConfig: {
             type: Object,
-            value: function () {
+            value: function() {
               return {
                 'entry': [{
                   name: 'fade-in-animation',
@@ -131,7 +131,7 @@
             }
           }
         },
-        _updateCascadedNodes: function () {
+        _updateCascadedNodes: function() {
           var cascaded = Polymer.dom(this.root).querySelectorAll('[cascaded]');
           var cascadedArray = Array.prototype.slice.call(cascaded);
           this.animationConfig.entry.push({
