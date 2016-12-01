@@ -7,7 +7,6 @@
 <link rel="import" href="../../bower_components/neon-animation/neon-animated-pages.html">
 
 <link rel="import" href="../styles/shared-styles.html">
-<link rel="import" href="../behaviors/localize-behavior.html">
 <link rel="import" href="animatable-content.html">
 
 
@@ -63,7 +62,7 @@
         font-size: 18px;
       }
       .logo {
-        width: 240px;
+        width: 80px;
         min-height: 80px;
       }
       .dates {
@@ -108,25 +107,23 @@
     <app-toolbar>
       <neon-animated-pages attr-for-selected="name" selected="{{app.page}}">
         <animatable-content name="home">
-          <div class="container">
+          <div class="container" center-justified>
             <div class="home-wrapper">
-              <!-- <iron-image class="logo" src="/images/logo-light.svg" sizing="contain"
-                          alt="[[localize('title')]]"></iron-image> -->
-              <!-- <h3 class="dates">{{localize('dates')}}</h3> -->
-              <h2 class="motto">{{localize('title')}}</h2>
+              <iron-image class="logo" src="/images/logo-white.svg" sizing="contain"
+                          alt="Richard Osterloh Engineering Ltd."></iron-image>
+              <h2 class="motto">Richard Osterloh Engineering Ltd.</h2>
               <div class="tagline">
-                <iron-icon icon="memory"></iron-icon>
-                {{localize('embedded')}}
+                <iron-icon icon="memory"></iron-icon>Embedded Software Development
               </div>
               <div class="action-buttons">
-                <paper-button class="primary" on-tap="_scrollToContact" raised>{{localize('contact-me')}}</paper-button>
+                <paper-button class="primary" on-tap="_scrollToContact" raised>Contact Me</paper-button>
               </div>
             </div>
           </div>
         </animatable-content>
         <animatable-content name="blog">
           <div class="container">
-            <h3 class="page-title" hidden$="{{app.headerSettings.title}}">{{localize('blog')}}</h3>
+            <h3 class="page-title" hidden$="{{app.headerSettings.title}}">Blog</h3>
             <h3 class="page-title" hidden$="{{!app.headerSettings.title}}">[[app.headerSettings.title]]</h3>
             <div class="page-subtitle" hidden$="{{!app.headerSettings.subtitle}}">[[app.headerSettings.subtitle]]</div>
           </div>
@@ -139,16 +136,17 @@
   <script>
     (function () {
       'use strict';
+
       Polymer({
+
         is: 'header-content',
-        behaviors: [
-          ROE.LocalizeBehavior
-        ],
+
         properties: {
           app: {
             type: Object
           }
         },
+
         _scrollToContact: function () {
           ROE.Analytics.trackEvent('contact', 'contact_click', 'header');
           Polymer.AppLayout.scroll({
@@ -157,7 +155,9 @@
             target: ROE.Elements.Scroller
           });
         }
+
       });
+
     }());
   </script>
 

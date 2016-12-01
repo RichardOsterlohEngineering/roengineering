@@ -12,11 +12,14 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+
 <link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../bower_components/neon-animation/animations/scale-up-animation.html">
 
 <link rel="import" href="effects/fade-effect.html">
 <link rel="import" href="behaviors/utils-behavior.html">
-<link rel="import" href="behaviors/localize-behavior.html">
 <link rel="import" href="elements/app-data.html">
 <link rel="import" href="elements/drawer-block.html">
 <link rel="import" href="elements/toolbar-block.html">
@@ -104,10 +107,23 @@
       app="{{app}}"
       posts="{{posts}}"></app-data>
 
+    <firebase-app
+      name="roengineering"
+      auth-domain="roengineering-a69c9.firebaseapp.com"
+      database-url="https://roengineering-a69c9.firebaseio.com/"
+      api-key="AIzaSyAcDfS3ACojU4rK0R4Qi16_8dO7TqTrcu0"></firebase-app>
+
+    <firebase-auth
+      id="auth"
+      provider="google"
+      app-name="roengineering"
+      user="{{app.user}}"></firebase-auth>
+
     <app-drawer-layout id="drawerLayout" drawer-width="599px" force-narrow>
+
       <app-drawer id="drawer" swipe-open="[[app.isPhoneSize]]">
         <template is="dom-if" if="[[app.isPhoneSize]]">
-          <drawer-block app={{app}} route-data="{{routeData}}" drawer></drawer-block>
+          <drawer-block app={{app}} drawer></drawer-block>
         </template>
       </app-drawer>
 
@@ -139,49 +155,55 @@
 
     </app-drawer-layout>
 
-    <toast-element id="toast"></toast-element>
+    <toast-element id="toast" app="{{app}}"></toast-element>
 
   </template>
 
   <script>
     (function () {
+
       'use strict';
+
       // performance logging
       window.performance && performance.mark && performance.mark('roe-app - before register');
+
       Polymer({
         is: 'roe-app',
+
         behaviors: [
-          ROE.LocalizeBehavior,
           ROE.UtilsBehavior
         ],
+
         properties: {
           app: {
             type: Object,
             notify: true,
             value: function () {
               return {
-                lang: 'en'
+                user: {}
               };
             }
           },
+
           page: {
             type: String,
             reflectToAttribute: true
           }
         },
+
         observers: [
           '_routePageChanged(routeData.page, app.data.navigation)',
           '_pageChanged(app.page)',
           'stylesChanged(app.headerSettings)'
         ],
+
         ready: function () {
           Polymer.RenderStatus.afterNextRender(this, function () {
             ROE.ServiceWorkerRegistration.register();
-            //this.importHref(this.resolveUrl('pages/schedule-page.html'), null, null, true);
-            //this.importHref(this.resolveUrl('pages/speakers-page.html'), null, null, true);
             this.importHref(this.resolveUrl('pages/blog-page.html'), null, null, true);
           }.bind(this));
         },
+
         _routePageChanged: function (page) {
           // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
           // with `behavior: 'silent'` to disable header scroll effects during the scroll.
@@ -198,6 +220,7 @@
             }
           }
         },
+
         stylesChanged: function () {
           if (!this.app.headerSettings) return;
           this.customStyle['--header-background'] = this.app.headerSettings.backgroundColor;
@@ -208,14 +231,19 @@
             this.app.headerSettings.backgroundColor + ' 140%)';
           this.customStyle['--min-header-height'] = this.app.headerSettings.minHeight;
           document.getElementsByName('theme-color')[0].content = this.app.headerSettings.backgroundColor;
-          this.updateStyles();
-          this.$.header.resetLayout();
+
+          window.requestAnimationFrame(function () {
+            this.updateStyles();
+            this.$.header.resetLayout();
+          }.bind(this));
         },
+
         _pageChanged: function (page) {
           if (page && page !== 'home') {
             this.importHref(this.resolveUrl('pages/' + page + '-page.html'), null, null, true);
           }
         },
+
         backToTop: function (e) {
           e.preventDefault();
           Polymer.AppLayout.scroll({
@@ -225,18 +253,35 @@
           });
           e.target.blur();
         },
+
         toggleDrawer: function () {
-          this.$$('#drawer').toggle();
+          window.requestAnimationFrame(function () {
+            this.$$('#drawer').toggle();
+          }.bind(this));
         },
+
         _isPage: function (page, selectedPage) {
           return page === selectedPage;
         },
+
         closeDrawer: function () {
           if (this.$$('#drawer') && this.$$('#drawer').close) {
-            this.$$('#drawer').close();
+            window.requestAnimationFrame(function () {
+              this.$$('#drawer').close();
+            }.bind(this));
           }
+        },
+
+        signIn: function () {
+          ROE.Elements.Template.$.auth.signInWithPopup();
+        },
+
+        signOut: function () {
+          this.$.auth.signOut();
         }
+
       });
+
     }());
   </script>
 

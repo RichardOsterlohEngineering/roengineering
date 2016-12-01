@@ -11,6 +11,18 @@
       .clickable {
         cursor: pointer;
       }
+
+      paper-toast {
+￼        user-select: none;
+￼      }
+￼
+￼      paper-toast[fit-bottom] {
+￼        width: 100%;
+￼        min-width: 0;
+￼        border-radius: 0;
+        margin: 0;
+      }
+
       .toast-action {
         @apply(--layout-self-center);
         padding-left: 24px;
@@ -19,7 +31,8 @@
         font-weight: 600;
         cursor: pointer;
         white-space: nowrap;
-      }
+        user-select: none;
+￼      }
     </style>
 
     <paper-toast
@@ -27,7 +40,9 @@
       class$="{{_computeClass(_tapHandler)}}"
       duration="[[duration]]"
       text="[[text]]"
-      on-tap="_handleTap" layout horizontal justified>
+      on-tap="_handleTap" layout horizontal justified
+      fit-bottom$="{{app.isPhoneSize}}"
+    >
 
       <span class="toast-action"
             on-click="_handleAction" hidden$="{{!action}}">[[action]]</span>
@@ -39,49 +54,65 @@
   <script>
     (function () {
       'use strict';
+
       Polymer({
+
         is: 'toast-element',
-        behaviors: [
-          ROE.LocalizeBehavior
-        ],
+
         properties: {
+
+          app: {
+            type: Object
+          },
+
           action: {
             type: String,
             value: null,
             observer: '_actionChanged'
           },
+
           duration: {
             type: Number,
             value: 6000
           },
+
           _actionHandler: {
             value: null
           },
+
           _handledAction: {
             type: Boolean,
             value: false
           },
+
           _listeners: {
             value: function() {
               return [];
             }
           },
+
           _tapHandler: {
             value: null
           }
+
         },
+
         listeners: {
           'iron-overlay-closed': '_handleOverlayClosed'
         },
+
         _actionChanged: function () {
           Polymer.dom(this).textContent = this.action ? this.action : null;
         },
+
         show: function () {
           this.$.internalToast.show();
         },
+
         close: function () {
           this.$.internalToast.close();
         },
+
         showMessage: function (message, opt_tapHandler, opt_action,
                                opt_actionHandler, opt_duration) {
           this.close();
@@ -98,6 +129,7 @@
           this.fire('toast-message', {message: message});
           this.duration = originalDuration; // reset site-wide duration.
         },
+
         _handleTap: function () {
           if (typeof this._tapHandler == 'function' && !this._handledAction) {
             this._tapHandler();
@@ -105,6 +137,7 @@
           }
           this._handledAction = false;
         },
+
         _handleAction: function (e, detail) {
           if (typeof this._actionHandler == 'function') {
             e.stopPropagation();
@@ -115,13 +148,17 @@
             this.$.internalToast.close();
           }
         },
+
         _handleOverlayClosed: function () {
           this._tapHandler = null;
         },
+
         _computeClass: function (tapHandler) {
           return tapHandler ? 'clickable' : '';
         }
+
       });
+
     }());
   </script>
 

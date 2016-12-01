@@ -1,4 +1,10 @@
 {
+  "firebase": {
+    "name": "roengineering",
+    "domain": "roengineering-a69c9.firebaseapp.com",
+    "database": "https://roengineering-a69c9.firebaseio.com/",
+    "api": "AIzaSyAcDfS3ACojU4rK0R4Qi16_8dO7TqTrcu0"
+  },
   "pages": {
     "home": {
       "headerSettings": {
@@ -29,13 +35,7 @@
       "permalink": "/blog/"
     }
   ],
-  "url": "https://roengineering-a69c9.firebaseapp.com/",
-  "languages": [
-    {
-      "name": "English",
-      "key": "en"
-    }
-  ],
+  "url": "https://roengineering.tech/",
   "footerBlocks": [
     {
       "title": "for-visitors",

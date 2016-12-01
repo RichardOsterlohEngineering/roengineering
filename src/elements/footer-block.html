@@ -6,12 +6,13 @@
 
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
-<link rel="import" href="../../bower_components/paper-item/paper-item.html">
 
 <link rel="import" href="../styles/shared-styles.html">
 <link rel="import" href="../js-wrappers/g-plusone.html">
-<link rel="import" href="../behaviors/localize-behavior.html">
+<link rel="import" href="../behaviors/share-behavior.html">
 
 
 <dom-module id="footer-block">
@@ -29,6 +30,7 @@
           padding: 0;
         };
         --paper-menu-background-color: #fff;
+        --paper-menu-button-dropdown-background: #fff;
       }
       .container {
         @apply(--layout-vertical);
@@ -60,10 +62,6 @@
         @apply(--layout-vertical);
         @apply(--layout-flex);
       }
-      .link-block-title {
-        margin-bottom: 10px;
-        font-size: 18px;
-      }
       .link-block {
         padding: 0;
       }
@@ -91,10 +89,7 @@
         @apply(--layout-flex);
         margin-right: 10px;
       }
-      .language-icon {
-        margin-right: 4px;
-      }
-      paper-item {
+      paper-icon-item {
         cursor: pointer;
       }
       @media (min-width: 601px) {
@@ -110,9 +105,6 @@
         }
         .link-block-wrapper {
           width: 50%;
-        }
-        .link-block-title {
-          margin-bottom: 15px;
         }
         .gplus {
           padding: 0;
@@ -133,26 +125,25 @@
         <iron-image class="roe-logo" src="/images/roe-logo.png" sizing="contain"
                     alt="[[app.data.organizer.name]]"></iron-image>
         <paper-button class="footer-backtotop" on-tap="scrollToTop" noink>
-          [[localize('back-to-top')]]
-          <iron-icon icon="icons:expand-less"></iron-icon>
+          Back to top<iron-icon icon="icons:expand-less"></iron-icon>
         </paper-button>
       </div>
       <div class="footer-content footer-links-container">
         <nav class="navigation">
           <template is="dom-repeat" items="[[app.data.footerBlocks]]" as="block">
             <div class="link-block-wrapper">
-              <div class="link-block-title">[[localize(block.title)]]</div>
+              <div class="link-block-title">[[block.title]]</div>
               <ul class="link-block">
                 <template is="dom-repeat" items="[[block.links]]" as="link">
                   <li>
-                    <a href$="[[link.url]]" target="_getLinkTarget(link.newTab)">[[localize(link.text)]]</a>
+                    <a href$="[[link.url]]" target="_getLinkTarget(link.newTab)">[[link.text]]</a>
                   </li>
                 </template>
               </ul>
             </div>
           </template>
           <div class="link-block-wrapper">
-            <div class="link-block-title">[[localize('contact-me')]]</div>
+            <div class="link-block-title">Contact Me</div>
             <ul class="link-block">
               <template is="dom-repeat" items="[[app.data.contactBlock.links]]" as="link">
                 <li>
@@ -182,30 +173,27 @@
           <g:plusone size="medium" width="200" annotation="inline" href$="{{app.data.url}}"></g:plusone>
         </div>
 
-        <template is="dom-if" if="[[_showLanguageToggle(app.data.languages)]]">
-          <paper-menu-button vertical-align="bottom" horizontal-align="left">
-            <paper-button class="dropdown-trigger">
-              <iron-icon class="language-icon" icon="language"></iron-icon>
-              [[selectedLanguage.label]]
-              <iron-icon icon="arrow-drop-down"></iron-icon>
-            </paper-button>
-            <paper-menu
-              class="dropdown-content"
-              selected="{{app.lang}}"
-              selected-item="{{selectedLanguage}}"
-              attr-for-selected="value"
-            >
-              <template is="dom-repeat" items="[[app.data.languages]]" as="lang">
-                <paper-item
-                  value="[[lang.key]]"
-                  label="[[lang.name]]"
-                  on-tap="_changeLanguage"
-                >[[lang.name]]
-                </paper-item>
-              </template>
-            </paper-menu>
-          </paper-menu-button>
-        </template>
+        <paper-menu-button vertical-align="bottom" horizontal-align="left" share-menu>
+￼          <paper-icon-button icon="share" class="dropdown-trigger"></paper-icon-button>
+￼          <div class="dropdown-content">
+￼            <paper-icon-item on-tap="share" share="gplus">
+￼              <iron-icon icon="gplus" item-icon></iron-icon>
+￼              Google+
+￼            </paper-icon-item>
+￼            <paper-icon-item on-tap="share" share="facebook">
+￼              <iron-icon icon="facebook" item-icon></iron-icon>
+￼              Facebook
+￼            </paper-icon-item>
+￼            <paper-icon-item on-tap="share" share="twitter">
+￼              <iron-icon icon="twitter" item-icon></iron-icon>
+￼              Twitter
+￼            </paper-icon-item>
+￼            <paper-icon-item on-tap="share" share="copy">
+￼              <iron-icon icon="link" item-icon></iron-icon>
+￼              Copy link
+￼            </paper-icon-item>
+￼          </div>
+￼        </paper-menu-button>
       </div>
     </div>
 
@@ -214,24 +202,25 @@
   <script>
     (function () {
       'use strict';
+
       Polymer({
+
         is: 'footer-block',
+
         behaviors: [
-          ROE.LocalizeBehavior
+          ROE.ShareBehavior
         ],
+
         scrollToTop: function (e) {
           ROE.Elements.Template.backToTop(e);
         },
-        _changeLanguage: function (e) {
-          ROE.Analytics.trackEvent('language', 'select', e.target.label);
-        },
+
         _getLinkTarget: function (newTab) {
           return newTab ? '_blank' : '';
-        },
-        _showLanguageToggle: function (languages) {
-          return languages && (languages.length > 1);
         }
+
       });
+
     }());
   </script>
 </dom-module>

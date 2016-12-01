@@ -1,22 +1,20 @@
 language: node_js
-sudo: required
-dist: trusty
-addons:
-  firefox: '46.0'
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-node_js:
-  - '6'
-  - '5'
-  - '4'
+node_js: 6
 cache:
   directories:
-    - node_modules
-before_script:
-  - npm install -g bower polymer-cli
-  - bower install
-script:
-  - xvfb-run polymer test
+  - node_modules
+  - bower_components
+  - "${NVM_PATH}_modules"
+env:
+- CXX=g++-4.8
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+install:
+- npm install -g bower polymer-cli
+- bower install
+script: echo "Deploying!"
+before_deploy: polymer build
