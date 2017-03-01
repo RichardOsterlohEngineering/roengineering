@@ -1,5 +1,5 @@
 language: node_js
-node_js: 6
+node_js: 7
 cache:
   directories:
   - node_modules
@@ -14,7 +14,8 @@ addons:
     packages:
     - g++-4.8
 install:
-- npm install -g bower polymer-cli
+- npm install -g bower
+- npm install
 - bower install
 script: echo "Deploying!"
-before_deploy: polymer build
+before_deploy: npm run build

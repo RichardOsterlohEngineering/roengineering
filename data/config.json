@@ -1,9 +1,20 @@
 {
+  "url": "https://roengineering.tech/",
+  "analytics": {
+    "prod": "UA-43643469-8",
+    "dev": "UA-43643469-9"
+  },
+  "webapp": {
+    "shortName": "DevFest",
+    "themeColor": "#F57C00",
+    "backgroundColor": "#F57C00"
+  },
   "firebase": {
     "name": "roengineering",
     "domain": "roengineering-a69c9.firebaseapp.com",
     "database": "https://roengineering-a69c9.firebaseio.com/",
-    "api": "AIzaSyAcDfS3ACojU4rK0R4Qi16_8dO7TqTrcu0"
+    "api": "AIzaSyAcDfS3ACojU4rK0R4Qi16_8dO7TqTrcu0",
+    "indexedDbSession": "roengineering"
   },
   "pages": {
     "home": {
@@ -35,7 +46,6 @@
       "permalink": "/blog/"
     }
   ],
-  "url": "https://roengineering.tech/",
   "footerBlocks": [
     {
       "title": "for-visitors",
