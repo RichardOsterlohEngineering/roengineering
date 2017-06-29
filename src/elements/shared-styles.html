@@ -1,0 +1,89 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="./flex-layout-attr.html">
+
+<!-- shared styles for all views -->
+<dom-module id="shared-styles">
+  <template>
+    <style>
+      :host {
+        --dark-primary-color: #F57C00;
+        --default-primary-color: #FF9800;
+        --light-primary-color: #FFE0B2;
+        --text-primary-color: #FFFFFF;
+        --accent-color: #FF5252;
+        --primary-background-color: #FFFFFF;
+        --primary-text-color: #212121;
+        --secondary-text-color: #757575;
+        --disabled-text-color: #BDBDBD;
+        --divider-color: #EDEDED;
+        --footer-background-color: #F5F5F5;
+        --footer-text-color: #616161;
+        --gplus-color: #DF312D;
+        --twitter-color: #4099FF;
+        --facebook-color: #3B5998;
+        --border-light-color: #E2E2E2;
+
+        /* Custom */
+        --default-background-color: #FAFAFA;
+        --border-radius: 2px;
+      }
+
+      * {
+        box-sizing: border-box;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .highlight-font {
+        font-family: "Product Sans", arial, sans-serif;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+        font-family: "Product Sans", arial, sans-serif;
+        font-weight: normal;
+      }
+
+      h1 {
+        padding: 8px 8px 24px 14px;
+        font-size: 24px;
+        line-height: 30px;
+        font-weight: 500;
+      }
+
+      a {
+        color: var(--default-primary-color);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color .3s ease-out;
+      }
+
+      body {
+        text-rendering: optimizeLegibility;
+        background-color: #fafafa;
+        color: var(--primary-text-color);
+      }
+
+      paper-button[primary] {
+        background: var(--default-primary-color);
+        color: var(--text-primary-color);
+      }
+
+      .content {
+        margin: 0 auto;
+        max-width: 1024px;
+      }
+
+       .big-icon {
+        --iron-icon-height: 48px;
+        --iron-icon-width: 48px;
+      }
+
+    </style>
+  </template>
+</dom-module>

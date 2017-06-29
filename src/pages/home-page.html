@@ -1,48 +1,34 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
-<link rel="import" href="../behaviors/cascaded-behavior.html">
-<link rel="import" href="../behaviors/page-behavior.html">
 <link rel="import" href="../elements/about-block.html">
-<link rel="import" href="../elements/footer-block.html">
 <link rel="import" href="../elements/photo-block.html">
-
+<link rel="import" href="../elements/shared-styles.html">
 
 <dom-module id="home-page">
-
   <template>
+    <style is="custom-style" include="shared-styles flex flex-alignment"></style>
 
-    <about-block app="{{app}}" cascaded></about-block>
-    <photo-block app="{{app}}" cascaded></photo-block>
-    <footer-block app="{{app}}" cascaded></footer-block>
+    <style>
 
+      :host {
+        display: block;
+      }
+
+    </style>
+
+    <about-block></about-block>
+    <photo-block></photo-block>
   </template>
 
   <script>
-    (function () {
-      'use strict';
 
-      Polymer({
+    class HomePage extends Polymer.Element {
+      static get is() {
+        return 'home-page'
+      }
+    }
 
-        is: 'home-page',
-
-        behaviors: [
-          ROE.PageBehavior,
-          ROE.CascadedBehavior
-        ],
-
-        properties: {
-          posts: {
-            type: Array
-          }
-        },
-
-        ready: function() {
-          this.updateCascadedNodes();
-        }
-
-      });
-
-    }());
+    customElements.define(HomePage.is, HomePage);
   </script>
-
 </dom-module>
+

@@ -1,103 +1,131 @@
 {
+  "basepath": "/",
   "url": "https://roengineering.tech/",
-  "analytics": {
-    "prod": "UA-43643469-8",
-    "dev": "UA-43643469-9"
+  "analytics": "UA-43643469-8",
+  "firebase": {
+    "apiKey": "AIzaSyAcDfS3ACojU4rK0R4Qi16_8dO7TqTrcu0",
+    "authDomain": "roengineering-a69c9.firebaseapp.com",
+    "databaseURL": "https://roengineering-a69c9.firebaseio.com",
+    "projectId": "roengineering-a69c9",
+    "storageBucket": "roengineering-a69c9.appspot.com",
+    "messagingSenderId": "545295050709"
+  },
+  "organizer": {
+    "name": "Richard Osterloh",
+    "twitter": "riosterloh",
+    "blog": "http://rosterloh.github.io/",
+    "url": "http://roengineering.tech/"
   },
   "webapp": {
-    "shortName": "DevFest",
+    "shortName": "ROEngineering",
     "themeColor": "#F57C00",
     "backgroundColor": "#F57C00"
   },
-  "firebase": {
-    "name": "roengineering",
-    "domain": "roengineering-a69c9.firebaseapp.com",
-    "database": "https://roengineering-a69c9.firebaseio.com/",
-    "api": "AIzaSyAcDfS3ACojU4rK0R4Qi16_8dO7TqTrcu0",
-    "indexedDbSession": "roengineering"
-  },
-  "pages": {
-    "home": {
-      "headerSettings": {
-        "backgroundColor": "#FF9800",
-        "backgroundImage": "/images/backgrounds/header.jpg",
-        "fontColor": "#fff",
-        "tabBarColor": "#fff",
-        "hideLogo": true,
-        "minHeight": "360px"
-      }
-    },
-    "blog": {
-      "headerSettings": {
-        "backgroundColor": "#03a9f4",
-        "backgroundImage": "/images/backgrounds/home.png",
-        "fontColor": "#fff",
-        "tabBarColor": "#fff"
-      }
-    }
-  },
+  "hashtag": "ROEng",
   "navigation": [
     {
       "route": "home",
-      "permalink": "/"
+      "permalink": "/",
+      "title": "Home"
     },
     {
       "route": "blog",
-      "permalink": "/blog/"
-    }
-  ],
-  "footerBlocks": [
-    {
-      "title": "for-visitors",
-      "links": [
-        {
-          "text": "github",
-          "url": "https://github.com/RichardOsterlohEngineering",
-          "newTab": true
-        }
-      ]
+      "permalink": "/blog/",
+      "title": "Blog"
     },
     {
-      "title": "other-links",
-      "links": [
-      ]
+      "route": "team",
+      "permalink": "/team/",
+      "title": "Team"
     }
   ],
-  "contactBlock": {
-    "links": [
-      {
-        "text": "richard.osterloh@gmail.com",
-        "url": "mailto:richard.osterloh@gmail.com"
-      }
-    ]
+  "heroSettings": {
+    "home": {
+      "description": "Richard Osterloh Engineering. Embedded Software development and consultancy",
+      "background": {
+        "color": "#FF9800",
+        "image": "/images/backgrounds/header.jpg"
+      },
+      "fontColor": "#FFF"
+    },
+    "blog": {
+      "title": "Blog",
+      "background": {
+        "color": "#FFF"
+      },
+      "fontColor": "#424242"
+    },
+    "team": {
+      "title": "Team",
+      "background": {
+        "color": "rgba(0, 198, 255, 0.1)",
+        "gradient": "linear-gradient(to right, #00c6ff, #0072ff)"
+      },
+      "fontColor": "#fff"
+    }
   },
-  "hashtag": "ROEng",
-  "social": [
+  "mediaQueries": {
+    "xs": {
+      "max": "639px"
+    },
+    "sm": {
+      "min": "640px",
+      "max": "811px"
+    },
+    "md": {
+      "min": "812px",
+      "max": "1023px"
+    },
+    "lg": {
+      "min": "1024px"
+    }
+  },
+  "socialNetwork": {
+    "follow" : [
+    {
+      "name": "facebook",
+      "url": "https://www.facebook.com/richard.osterloh/"
+    },
     {
       "name": "twitter",
-      "nickname": "riosterloh",
-      "url": "https://twitter.com/riosterloh"
+      "url": "https://twitter.com/riosterloh/"
+    },
+    {
+      "name": "instagram",
+      "url": "https://www.instagram.com/riosterloh"
+    },
+    {
+      "name": "youtube",
+      "url": "https://www.youtube.com/channel/UCqBbG2QnxT3aHCETOPs6wZg"
     },
     {
       "name": "gplus",
-      "nickname": "RichardOsterloh",
       "url": "https://plus.google.com/+RichardOsterloh"
     },
     {
-      "name": "facebook",
-      "nickname": "richard.osterloh",
-      "url": "https://www.facebook.com/richard.osterloh"
-    },
-    {
       "name": "linkedin",
-      "nickname": "richardosterloh",
       "url": "https://www.linkedin.com/in/richardosterloh"
     }
   ],
+    "share" : [
+      {
+        "name" : "gplus",
+        "url" :  "https://plus.google.com/share?url="
+      },
+      {
+        "name" : "facebook",
+        "url" :  "https://www.facebook.com/sharer.php?u="
+      },
+      {
+        "name" : "twitter",
+        "url" :  "https://twitter.com/intent/tweet?text="
+      }
+    ]},
+  "mailto": "richard.osterloh@gmail.com",
   "gallery": {
     "albumUrl": "https://plus.google.com/u/0/collection/wE4hqB",
     "photos": {
-      "big": "/images/backgrounds/DragonBoard_820.jpg",
+      "big": "/images/backgrounds/DragonBoard820.jpg",
       "small": [
         "/images/backgrounds/Macro.jpg",
         "/images/backgrounds/FishEye.jpg"

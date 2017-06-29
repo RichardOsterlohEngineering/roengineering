@@ -1,77 +1,105 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
-
-<link rel="import" href="../../bower_components/marked-element/marked-element.html">
-
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="shared-animations.html">
+<link rel="import" href="roe-icons.html">
 
 <dom-module id="about-block">
+    <template>
+        <style is="custom-style" include="shared-styles flex flex-alignment flex-reverse fade-animations"></style>
 
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
-      }
-      .container {
-        @apply(--layout-vertical);
-      }
-      .about-item {
-        @apply(--layout-flex-5);
-        text-align: justify;
-      }
-      .about-item:not(:first-of-type) {
-        margin-top: 30px;
-      }
-      .divider {
-        @apply(--layout-flex);
-      }
-      .page-link {
-        margin-top: 18px;
-        display: block;
-        font-size: 16px;
-      }
-      @media (min-width: 601px) {
-        .container {
-          @apply(--layout-horizontal);
+        <style>
+             :host {
+                display: block;
+                position: relative;
+                color: var(--dark-primary-color);
+            }
+
+            .container {
+                margin: 48px 40px;
+            }
+
+            .description-block {
+                padding: 16px;
+            }
+
+            .block-cta paper-button {
+                padding-left: 0;
+                margin-left: 0;
+            }
+
+            .block-cta iron-icon {
+                margin-left: 8px;
+            }
+
+            .block-cta .cta-label {
+                font-size: 14px;
+            }
+
+            .block-subtitle {
+                color: var(--secondary-text-color);
+            }
+
+            .icon iron-icon {
+                color: var(--dark-primary-color);
+            }
+
+            .title {
+                width: 300px;
+            }
+
+            .description-block {
+                animation-duration: 1s;
+                animation-fill-mode: both;
+                animation-name: fadeInUp;
+            }
+
+            @media (min-width: 868px) {               
+                .description-block {
+                    margin-right: 16px;
+                    padding: 48px;
+                }
+            }
+
+             @media (min-width: 1150px) {
+                  .description-block {
+                    padding: 48px 64px;
+                    margin: 0 48px;
+                }
+             }
+
+        </style>
+
+        <div class="container" flex layout horizontal center wrap-reverse>
+
+            <div class="description-block" flex>
+                <h2 class="title">About</h2>
+                    <p class="block-subtitle">Richard Osterloh Engineering Ltd offers Embedded Software development and consultancy. We build custom proprietary systems as well as implement open source technologies</p>
+                    <a class="block-cta" href="https://github.com/RichardOsterlohEngineering" target="_blank" rel="noopener noreferrer">
+                        <paper-button>
+                            <span class="cta-label">See our projects on github</span>
+                            <iron-icon icon="roe:arrow-right-circle"></iron-icon>
+                        </paper-button>
+                    </a>
+            </div>
+
+            <div class="description-block" flex>
+                <h2 class="title">Technology</h2>
+                <p class="block-subtitle">We have experience in developing:</p>
+                <ul>
+                    <li>Android platform and applicaion</li>
+                    <li>RTOS and bare metal microcontrollers</li>
+                    <li>IoT backend systems</li>
+                </ul>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        class AboutBlock extends Polymer.Element {
+            static get is() { return 'about-block' }
         }
-        .container .heading {
-          margin-bottom: 20px;
-        }
-        .about-item:not(:first-of-type) {
-          margin-top: 0;
-        }
-      }
-    </style>
 
-    <div class="container">
-      <div class="about-item">
-        <h4 class="heading">About</h4>
-        <marked-element markdown="Richard Osterloh Engineering Ltd offers Embedded Software development and consultancy. We build custom proprietary systems as well as implement open source technologies">
-          <div class="markdown-html"></div>
-        </marked-element>
-        <!-- <a class="page-link" href="/team/">Open team page</a> -->
-      </div>
-      <span class="divider"></span>
-      <div class="about-item">
-        <h4 class="heading">Technology</h4>
-        <marked-element markdown="We have experience in developing: <ul><li>Android platform and applicaion</li><li>RTOS and bare metal microcontrollers</li><li>IoT backend systems</li><ul>">
-          <div class="markdown-html"></div>
-        </marked-element>
-      </div>
-    </div>
-
-  </template>
-
-  <script>
-    (function () {
-      'use strict';
-
-      Polymer({
-
-        is: 'about-block'
-
-      });
-      
-    }());
-  </script>
+        customElements.define(AboutBlock.is, AboutBlock);
+    </script>
 </dom-module>

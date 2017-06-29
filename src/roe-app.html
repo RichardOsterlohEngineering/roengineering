@@ -1,347 +1,356 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/utils/render-status.html">
+<link rel="import" href="../bower_components/polymer/lib/utils/import-href.html">
 
-<link rel="import" href="../bower_components/app-layout/app-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/parallax-background.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/effects/blend-background.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 
-<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-media-query/iron-media-query.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
-<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 
-<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
-<link rel="import" href="../bower_components/neon-animation/animations/fade-out-animation.html">
-<link rel="import" href="../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../bower_components/iron-lazy-pages/iron-lazy-pages.html">
+<link rel="import" href="../bower_components/plastic-image/plastic-image.html">
 
-<link rel="import" href="effects/fade-effect.html">
-<link rel="import" href="behaviors/utils-behavior.html">
-<link rel="import" href="elements/app-data.html">
-<link rel="import" href="elements/drawer-block.html">
-<link rel="import" href="elements/toolbar-block.html">
-<link rel="import" href="elements/header-content.html">
-<link rel="import" href="elements/toast-element.html">
+<link rel="import" href="../bower_components/iron-lazy-pages/iron-lazy-pages.html">
+<link rel="import" href="../bower_components/plastic-image/plastic-image.html">
 
-<link rel="import" href="pages/home-page.html">
-
+<link rel="import" href="redux-mixin.html">
+<link rel="import" href="elements/shared-styles.html">
+<link rel="import" href="elements/roe-icons.html">
+<link rel="import" href="elements/footer-block.html">
 
 <dom-module id="roe-app">
 
   <template>
 
-    <style include="shared-styles">
+    <style is="custom-style" include="shared-styles flex flex-alignment positioning"></style>
+    <style>
       :host {
-        --min-header-height: 120px;
-        --header-background: var(--default-primary-color);
+        display: block;
+        position: relative;
+        min-height: 100vh;
+      }
+
+      app-drawer app-toolbar {
+        padding: 36px 24px 24px;
+        border-bottom: 1px solid var(--divider-color);
+      }
+
+      app-drawer .dates {
+        margin-top: 42px;
+        font-size: 22px;
+        line-height: 0.95;
+      }
+
+      app-drawer .location {
+        margin-top: 4px;
+        font-size: 15px;
+        color: var(--secondary-text-color);
+      }
+
+      .drawer-list {
+        padding: 16px 0;
         display: block;
       }
-      app-drawer-layout {
-        @apply(--layout-fit);
+
+      .drawer-list a {
+        padding: 8px 24px;
+        display: block;
+        color: var(--primary-text-color);
       }
-      app-drawer {
-        z-index: 10;
+
+      .drawer-list a.selected {
+        font-weight: 500;
       }
-      .image-overlay {
-        @apply(--layout-fit);
-        @apply(--opacity-animation);
-        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.7) 140%);
-        height: 100%;
-      }
+
       app-header {
-        @apply(--layout-fixed-top);
-        --app-header-background-front-layer: {
-          background-image: var(--header-background-image);
-          background-position: 50% 50%;
-          transition: background-image 0.5s;
-        };
-        --app-header-background-rear-layer: {
-          background-color: var(--header-background);
-        };
-        background-color: var(--header-background);
-        color: var(--header-color);
-        transition-property: transform, background-color, color, height;
-        z-index: 9;
+        background-color: var(--hero-background-color);
+        background-image: var(--hero-background-gradient);
+        transition: background-color 0.3s;
+        border-bottom: 1px solid var(--divider-color);
       }
-      .image-overlay-wrapper {
-        @apply(--layout-fit);
-        opacity: 0;
-      }
-      toolbar-block {
+
+      .header {
+        background-color: var(--primary-background-color);
+        border-bottom: 1px solid var(--divider-color);
         z-index: 1;
       }
-      .main-content {
-        padding-top: calc(var(--min-header-height) + 64px);
+
+      app-toolbar {
+        padding: 0;
+        height: auto;
       }
-      @media (min-width: 601px) {
-        .main-content {
-          padding-top: 424px;
+
+      .toolbar-logo {
+        --iron-image-height: 32px;
+      }
+
+      .nav-item a {
+        padding: 0 14px;
+        color: var(--primary-text-color);
+        text-transform: uppercase;
+      }
+
+      .hero-image {
+        background-color: var(--hero-background-color);
+        transition: background-color 0.3s;
+      }
+
+      app-header iron-pages {
+        z-index: 0;
+      }
+
+      .hero-overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .hero-overlay[show] {
+        opacity: 1;
+      }
+
+      .hero-block {
+        padding: 30px;
+        display: block;
+        position: relative;
+        color: var(--hero-color);
+      }
+
+      .hero-content {
+        max-width: 480px;
+      }
+
+      .hero-logo {
+        --iron-image-height: 50px;
+        margin-top: 30px;
+      }
+
+      .hero-title {
+        margin: 30px 0;
+        font-size: 40px;
+        text-transform: capitalize;
+      }
+
+      .hero-description {
+        margin-bottom: 30px;
+      }
+
+      @media (min-width: 640px) {
+        app-toolbar {
+          padding: 0 36px;
+          height: initial;
+        }
+
+        .nav-items {
+          --paper-tabs-selection-bar-color: var(--default-primary-color);
+          --paper-tabs: {
+            height: 64px;
+          };
+        }
+
+        .hero-block {
+          padding: 120px 60px 60px;
+        }
+
+        .hero-logo {
+          --iron-image-height: 70px;
+          margin-top: 0;
         }
       }
     </style>
 
-    <!-- Responsive handlers -->
-    <iron-media-query id="mq-phone"
-                      full
-                      query="(max-width:768px)"
-                      query-matches="{{app.isPhoneSize}}"></iron-media-query>
-    <iron-media-query id="mq-tablet"
-                      full
-                      query="(min-width:769px) and (max-width:959px)"
-                      query-matches="{{app.isTabletSize}}"></iron-media-query>
-    <iron-media-query id="mq-desktop"
-                      query="(min-width:960px)"
-                      query-matches="{{app.isDesktopSize}}"></iron-media-query>
+    <iron-media-query id="mq-phone" full query="(max-width: 639px)"
+                      query-matches="{{isPhoneSize}}"></iron-media-query>
 
-    <app-location route="{{route}}"></app-location>
+    <app-location route="{{appRoute}}"></app-location>
     <app-route
-      route="{{route}}"
+      route="{{appRoute}}"
       pattern="/:page"
       data="{{routeData}}"
-      tail="{{subRoute}}"></app-route>
+      tail="{{subroute}}"
+    ></app-route>
 
-    <firebase-app
-      name="roengineering"
-      auth-domain="roengineering-a69c9.firebaseapp.com"
-      database-url="https://roengineering-a69c9.firebaseio.com/"
-      api-key="AIzaSyAcDfS3ACojU4rK0R4Qi16_8dO7TqTrcu0">
-    </firebase-app>
+    <app-drawer-layout drawer-width="300px" force-narrow fullbleed>
 
-    <app-data
-      app="{{app}}"
-      posts="{{posts}}"></app-data>
+      <app-drawer id="drawer" slot="drawer" opened="[[ui.isDrawerOpened]]" swipe-open>
+        <app-toolbar layout vertical start>
+          <plastic-image class="toolbar-logo" srcset="/images/logo-white.svg"
+                         alt="Richard Osterloh Engineering"></plastic-image>
+        </app-toolbar>
 
-    <firebase-auth
-      id="auth"
-      provider="google"
-      app-name="roengineering"
-      user="{{app.user}}"
-      status-known="{{_authStatusKnown}}">
-    </firebase-auth>
-
-    <app-drawer-layout id="drawerLayout" drawer-width="599px" force-narrow>
-
-      <app-drawer id="drawer" swipe-open="[[app.isPhoneSize]]">
-        <template is="dom-if" if="[[app.isPhoneSize]]">
-          <drawer-block app={{app}} drawer></drawer-block>
-        </template>
+        <iron-selector
+          class="drawer-list"
+          selected="[[route]]"
+          attr-for-selected="path"
+          selected-class="selected"
+          role="navigation"
+        >
+          
+          <a href="/" path="home" on-tap="closeDrawer">Home</a>
+          
+          <a href="/blog/" path="blog" on-tap="closeDrawer">Blog</a>
+          
+          <a href="/team/" path="team" on-tap="closeDrawer">Team</a>
+          
+        </iron-selector>
       </app-drawer>
 
-      <app-header id="header" effects="parallax-background blend-background fade-effect" condenses shadow reveals>
-        <div class="image-overlay-wrapper" show$="[[app.headerSettings.backgroundImage]]">
-          <div class="image-overlay" fade></div>
-        </div>
-        <toolbar-block app="{{app}}" primary sticky></toolbar-block>
+      <app-header-layout id="headerLayout">
 
-        <header-content app="{{app}}" fade></header-content>
-      </app-header>
+        <app-header slot="header" condenses fixed>
+          <app-toolbar class="header" sticky>
+            <paper-icon-button icon="roe:menu" aria-label="Menu" hidden$="[[!isPhoneSize]]"
+                               on-tap="openDrawer"></paper-icon-button>
+            <div layout horizontal center flex>
+              <a href="/" hidden$="[[isPhoneSize]]" layout horizontal>
+                <plastic-image class="toolbar-logo" srcset="/images/roe-logo.png"
+                               alt="{$ title $}"></plastic-image>
+              </a>
+            </div>
 
-      <div class="main-content">
-        <neon-animated-pages selected="[[app.page]]"
-                             attr-for-selected="name"
-                             selected-attribute="selected">
+            <paper-tabs class="nav-items" selected="[[route]]" attr-for-selected="name"
+                        hidden$="[[isPhoneSize]]" role="navigation" noink>
+              
+              <paper-tab name="home" class="nav-item" link>
+                <a href="/" layout vertical center-center>Home</a>
+              </paper-tab>
+              
+              <paper-tab name="blog" class="nav-item" link>
+                <a href="/blog/" layout vertical center-center>Blog</a>
+              </paper-tab>
+              
+              <paper-tab name="team" class="nav-item" link>
+                <a href="/team/" layout vertical center-center>Team</a>
+              </paper-tab>
+              
+            </paper-tabs>
+          </app-toolbar>
 
-          <home-page name="home"
-                     app="{{app}}"
-                     posts="{{posts}}"></home-page>
+          <app-toolbar class="hero-block" layout start vertical center-justified>
+            <plastic-image class="hero-image" srcset="[[hero.background.image]]" 
+                           sizing="cover" lazy-load preload fade fit></plastic-image>
+            <div class="hero-overlay" show$=[[hero.background.image]] fit></div>
+            <iron-pages selected="[[route]]" attr-for-selected="route" fallback-selection="default">
+              <div class="hero-content" route="home">
+                <plastic-image class="hero-logo" srcset="/images/logo-white.svg" alt="{$ title $}"></plastic-image>
+                <p class="hero-description highlight-font">[[hero.description]]</p>
+              </div>
+              <div class="hero-content" route="default">
+                <div class="hero-title highlight-font">[[hero.title]]</div>
+                <p class="hero-description">[[hero.description]]</p>
+              </div>
+            </iron-pages>
+          </app-toolbar>
 
-          <blog-page name="blog"
-                     app="{{app}}"
-                     route="{{subRoute}}"
-                     posts="{{posts}}"></blog-page>
+        </app-header>
 
-        </neon-animated-pages>
-      </div>
+        <iron-lazy-pages attr-for-selected="data-route" selected="[[route]]">
+          <home-page data-route="home" data-path="pages/home-page.html"></home-page>
+          <blog-page data-route="blog" data-path="pages/blog-page.html" route="[[subroute]]"></blog-page>
+          <team-page data-route="team" data-path="pages/team-page.html"></team-page>
+        </iron-lazy-pages>
 
+        <footer-block></footer-block>
+      </app-header-layout>
     </app-drawer-layout>
-
-    <toast-element id="toast" app="{{app}}"></toast-element>
-
   </template>
 
   <script>
-    (function () {
+    class ROEApp extends ReduxMixin(Polymer.Element) {
 
-      'use strict';
-
-      // performance logging
-      window.performance && performance.mark && performance.mark('roe-app - before register');
-
-      Polymer({
-        is: 'roe-app',
-
-        behaviors: [
-          ROE.UtilsBehavior
-        ],
-
-        properties: {
-          app: {
+      static get is() {
+        return 'roe-app';
+      }
+      
+      static get properties() {
+        return {
+          ui: {
             type: Object,
-            notify: true,
-            value: function () {
-              return {
-                user: {}
-              };
-            }
+            statePath: 'ui'
           },
-
-          _authStatusKnown: {
-            type: Boolean,
-            value: false,
-            observer: '_autoSignIn'
-          },
-
-          page: {
+          route: {
             type: String,
-            reflectToAttribute: true
+            statePath: 'route'
+          },
+          hero: {
+            type: Object,
+            statePath: 'hero',
+            observer: '_heroChanged'
           }
-        },
+        };
+      }
 
-        observers: [
-          '_routePageChanged(routeData.page, app.data.navigation)',
-          '_pageChanged(app.page)',
-          'stylesChanged(app.headerSettings)'
-        ],
+      static get observers() {
+        return [
+          '_routeDataChanged(routeData.page)',
+          '_isPhoneSizeChanged(isPhoneSize)'
+        ];
+      }
 
-        ready: function () {
-          Polymer.RenderStatus.afterNextRender(this, function () {
-            ROE.ServiceWorkerRegistration.register();
-            this.importHref(this.resolveUrl('pages/blog-page.html'), null, null, true);
-          }.bind(this));
-        },
+      constructor() {
+        super();
+        window.performance && performance.mark && performance.mark('roe-app.created');
+      }
 
-        _routePageChanged: function (page) {
-          // Scroll to the top of the page on every *route* change. Use `Polymer.AppLayout.scroll`
-          // with `behavior: 'silent'` to disable header scroll effects during the scroll.
-          if (this.app.page !== page) {
-            Polymer.AppLayout.scroll({top: 0, behavior: 'silent'});
-          }
-          this.set('app.page', (page || 'home'));
-          // Close the drawer - in case the *route* change came from a link in the drawer.
-          this.drawerOpened = false;
-          if (this.app.data) {
-            var navObject = this.app.data.pages[this.app.page];
-            if (navObject && navObject.headerSettings) {
-              this.set('app.headerSettings', navObject.headerSettings);
-            }
-          }
-        },
+      ready() {
+        super.ready();
+        this.removeAttribute('unresolved');
+        this._ensureLazyLoaded();
+      }
 
-        stylesChanged: function () {
-          if (!this.app.headerSettings) return;
-          this.customStyle['--header-background'] = this.app.headerSettings.backgroundColor;
-          this.customStyle['--header-color'] = this.app.headerSettings.fontColor;
-          this.customStyle['--header-background-image'] = 'url(' + this.app.headerSettings.backgroundImage + ')';
-          this.customStyle['--header-background-gradient'] = 'linear-gradient(to bottom, ' +
-            this.app.headerSettings.backgroundColor + ' 0%, rgba(0, 0, 0, 0) 35%, ' +
-            this.app.headerSettings.backgroundColor + ' 140%)';
-          this.customStyle['--min-header-height'] = this.app.headerSettings.minHeight;
-          document.getElementsByName('theme-color')[0].content = this.app.headerSettings.backgroundColor;
+      openDrawer() {
+        uiActions.toggleDrawer(true);
+      }
 
-          window.requestAnimationFrame(function () {
-            this.updateStyles();
-            this.$.header.resetLayout();
-          }.bind(this));
-        },
+      closeDrawer() {
+        uiActions.toggleDrawer(false);
+      }
 
-        _pageChanged: function (page) {
-          if (page && page !== 'home') {
-            this.importHref(this.resolveUrl('pages/' + page + '-page.html'), null, null, true);
-          }
-        },
-
-        backToTop: function (e) {
-          e.preventDefault();
-          Polymer.AppLayout.scroll({
-            top: 0,
-            behavior: 'smooth',
-            target: ROE.Elements.Scroller
+      _ensureLazyLoaded() {
+        if (!this.loadComplete) {
+          Polymer.RenderStatus.afterNextRender(this, () => {
+            Polymer.importHref(this.resolveUrl('lazy-resources.html'), () => {
+              this.loadComplete = true;
+            });
           });
-          e.target.blur();
-        },
+        }        
+      }
 
-        toggleDrawer: function () {
-          window.requestAnimationFrame(function () {
-            this.$$('#drawer').toggle();
-          }.bind(this));
-        },
+      _heroChanged() {
+        if (!this.hero) return;
+        this.updateStyles({
+          '--hero-background-color': this.hero.background.color || '',
+          '--hero-background-gradient': this.hero.background.gradient || '',
+          '--hero-color': this.hero.fontColor || ''
+        });
+        this.$.headerLayout.resetLayout();
+      }
 
-        _isPage: function (page, selectedPage) {
-          return page === selectedPage;
-        },
-
-        closeDrawer: function () {
-          if (this.$$('#drawer') && this.$$('#drawer').close) {
-            window.requestAnimationFrame(function () {
-              this.$$('#drawer').close();
-            }.bind(this));
-          }
-        },
-
-        signIn: function () {
-          this.$.auth.signInWithPopup()
-            .then(function (signInObject) {
-              if (navigator.credentials) {
-                var cred = new FederatedCredential({
-                  id: signInObject.user.email,
-                  name: signInObject.user.displayName,
-                  iconURL: signInObject.user.photoURL,
-                  provider: 'https://accounts.google.com'
-                });
-
-                navigator.credentials.store(cred);
-              }
-            });
-        },
-
-        signOut: function () {
-          this.$.auth.signOut()
-            .then(function () {
-              if (navigator.credentials) {
-                navigator.credentials.requireUserMediation();
-              }
-            });
-        },
-
-        _autoSignIn: function (authStatusKnown) {
-          if (navigator.credentials
-            && authStatusKnown
-            && !this.app.user) {
-            return navigator.credentials.get({
-              password: true,
-              federated: {
-                providers: ['https://accounts.google.com']
-              },
-              unmediated: true
-            }).then(function (cred) {
-              if (cred) {
-                this.gSignIn(cred.id);
-              }
-            }.bind(this));
-          }
-        },
-
-        gSignIn: function (id) {
-          return (function () {
-            if (this.app.user && this.app.user.email === id) {
-              return Promise.resolve(this.app.user);
-            }
-
-            var provider = new firebase.auth.GoogleAuthProvider();
-            provider.setCustomParameters({
-              'login_hint': id || ''
-            });
-
-            return this.$.auth.signInWithPopup(provider);
-          }.bind(this))();
+      _routeDataChanged(page) {
+        if (!page && page !== '') {
+          return;
         }
+        routeActions.setRoute(page);
+      }
 
-      });
+      _isPhoneSizeChanged(value) {
+        uiActions.setViewportSize({ 'isPhone': value });
+      }
 
-    }());
+    }
+
+    customElements.define(ROEApp.is, ROEApp);
   </script>
 
 </dom-module>
