@@ -14,7 +14,6 @@
       :host {
         display: block;
         position: relative;
-        margin: 20px 0 0;
         color: var(--footer-text-color);
         background: var(--footer-background-color);
         font-size: 14px;
@@ -65,7 +64,7 @@
       static get is() { return 'footer-block' }
 
       backToTop(e) {
-        super.scrollToY(0, 1500, 'easeInOutSine');
+        this.scrollToY(0, 600, 'easeInOutSine');
       }
     }
 

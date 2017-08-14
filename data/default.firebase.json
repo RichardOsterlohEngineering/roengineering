@@ -1,0 +1,26 @@
+{
+    "team" : [ {
+        "members" : [ {
+        "name" : "Richard Osterloh",
+        "photoUrl" : "/images/people/richard_osterloh.jpg",
+        "socials" : [ {
+            "icon" : "gplus",
+            "link" : "https://plus.google.com/+RichardOsterloh",
+            "name" : "Google+"
+        }, {
+            "icon" : "facebook",
+            "link" : "https://www.facebook.com/richard.osterloh",
+            "name" : "Facebook"
+        }, {
+            "icon" : "twitter",
+            "link" : "https://twitter.com/riosterloh",
+            "name" : "Twitter"
+        }, {
+            "icon" : "website",
+            "link" : "http://rosterloh.github.io/",
+            "name" : "Blog"
+        } ],
+        "title" : "Managing Director"
+        } ]
+    } ]
+}

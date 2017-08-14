@@ -13,12 +13,15 @@
     "images/**/*",
     "scripts/**/*",
     "src/**/*",
+    "manifest.json",
     "bower.json"
   ],
   "extraDependencies": [
-    "manifest.json",
     "bower_components/webcomponentsjs/webcomponents-*.js",
-    "node_modules/redux/dist/redux.min.js"
+    "bower_components/iron-dropdown/iron-dropdown-scroll-manager.html",
+    "bower_components/firebase/firebase.js",
+    "node_modules/redux/dist/redux.min.js",
+    "node_modules/autotrack/autotrack.js"
   ],
   "lint": {
     "rules": ["polymer-2"]

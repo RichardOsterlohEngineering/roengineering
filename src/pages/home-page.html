@@ -1,8 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
-
 <link rel="import" href="../elements/about-block.html">
-<link rel="import" href="../elements/photo-block.html">
-<link rel="import" href="../elements/shared-styles.html">
+<link rel="import" href="../elements/latest-posts-block.html">
+<link rel="import" href="../elements/subscribe-block.html">
+<link rel="import" href="../elements/gallery-block.html">
 
 <dom-module id="home-page">
   <template>
@@ -17,7 +17,9 @@
     </style>
 
     <about-block></about-block>
-    <photo-block></photo-block>
+    <gallery-block></gallery-block>
+    <subscribe-block></subscribe-block>
+    <latest-posts-block></latest-posts-block>
   </template>
 
   <script>
@@ -29,6 +31,7 @@
     }
 
     customElements.define(HomePage.is, HomePage);
+
   </script>
 </dom-module>
 
