@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars,no-undef */
 const uiActions = {
   toggleDrawer: (value = null) => {
     store.dispatch({
@@ -24,15 +25,19 @@ const routingActions = {
     const route = routeFromAction || 'home';
     store.dispatch({
       type: SET_ROUTE,
-      route
+      route,
     });
   },
   setSubRoute: subRoute => {
     store.dispatch({
       type: SET_SUB_ROUTE,
-      subRoute
+      subRoute,
     });
-  }
+  },
+  setLocation: (url) => {
+    window.history.pushState({}, '', url);
+    Polymer.Base.fire('location-changed', {}, { node: window });
+  },
 };
 
 const dialogsActions = {
@@ -42,7 +47,7 @@ const dialogsActions = {
       dialog: {
         [dialogName]: {
           isOpened: true,
-          data
+          data,
         }
       }
     });
@@ -50,30 +55,57 @@ const dialogsActions = {
   closeDialog: (dialogName) => {
     store.dispatch({
       type: CLOSE_DIALOG,
-      dialogName
+      dialogName,
     });
   }
+};
+
+let toastHideTimeOut;
+const toastActions = {
+  showToast: (toast) => {
+    const duration = toast.duration || 5000;
+    store.dispatch({
+      type: SHOW_TOAST,
+      toast: Object.assign({}, toast, {
+        duration,
+        visible: true,
+      }),
+    });
+
+    clearTimeout(toastHideTimeOut);
+    toastHideTimeOut = setTimeout(() => {
+      toastActions.hideToast();
+    }, duration);
+  },
+
+  hideToast: () => {
+    clearTimeout(toastHideTimeOut);
+    store.dispatch({
+      type: HIDE_TOAST,
+    });
+  },
 };
 
 const blogActions = {
   fetchList: () => {
     return firebase.database()
       .ref('/blog/list')
-      .on('value', snapshot => store.dispatch({
+      .on('value', (snapshot) => store.dispatch({
         type: FETCH_BLOG_LIST,
-        list: snapshot.val()
+        list: snapshot.val(),
       }));
   }
 };
+
 
 const galleryActions = {
   fetchGallery: () => {
     return firebase.database()
       .ref('/gallery')
-      .on('value', snapshot => {
+      .on('value', (snapshot) => {
         store.dispatch({
           type: FETCH_GALLERY,
-          gallery: snapshot.val()
+          gallery: snapshot.val(),
         });
       });
   }
@@ -83,10 +115,10 @@ const teamActions = {
   fetchTeam: () => {
     return firebase.database()
       .ref('/team')
-      .on('value', snapshot => {
+      .on('value', (snapshot) => {
         store.dispatch({
           type: FETCH_TEAM,
-          team: snapshot.val()
+          team: snapshot.val(),
         });
       });
   }
@@ -120,9 +152,7 @@ const userActions = {
       helperActions.storeUser(currentUser);
     }
     else {
-
       if (navigator.credentials) {
-        
         return navigator.credentials.get({
           password: true,
           federated: {
@@ -177,10 +207,20 @@ const subscribeActions = {
         });
     })
     .catch(() => {
-       store.dispatch({
-          type: SUBSCRIBE,
-          subscribed: false
-        });
+      store.dispatch({
+        type: SET_DIALOG_DATA,
+        dialog: {
+          ['subscribe']: {
+            isOpened: true,
+            data: Object.assign(data, { errorOccurred: true }),
+          },
+        },
+      });
+
+      store.dispatch({
+        type: SUBSCRIBE,
+        subscribed: false,
+      });
     });
   },
   resetSubscribed: () => {
@@ -193,13 +233,21 @@ const subscribeActions = {
 
 
 const helperActions = {
- 
   storeUser: (user) => {
     let userToStore = { signedIn: false };
 
     if (user) {
+      const { uid, displayName, photoURL, refreshToken } = user;
       const email = user.email || user.providerData[0].email;
-      userToStore = Object.assign({}, user, { signedIn: true, email: email });
+
+      userToStore = {
+        signedIn: true,
+        uid,
+        email,
+        displayName,
+        photoURL,
+        refreshToken,
+      };
     }
 
     store.dispatch({

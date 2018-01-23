@@ -44,7 +44,9 @@
       _routeChanged(active, route) {
         if (active && route) {
           this.scrollToY(0, 200);
-          this.set('_route',  route);
+          this.set('subRoute', {});
+          this.set('_route', route);
+          routingActions.setSubRoute(this.routeData.page);
         }
       }
     }

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-env node */
 'use strict';
 
 const del = require('del');
@@ -10,13 +12,12 @@ const mergeStream = require('merge-stream');
 const polymerBuild = require('polymer-build');
 const browserSync = require('browser-sync').create();
 const history = require('connect-history-api-fallback');
+const eslint = require('gulp-eslint');
+const friendlyFormatter = require('eslint-friendly-formatter');
 
 const HtmlSplitter = polymerBuild.HtmlSplitter;
 const PolymerProject = polymerBuild.PolymerProject;
 const uglify = composer(uglifyes, console);
-
-const logging = require('plylog');
-// logging.setVerbose();
 
 const config = {
   polymerJsonPath: './polymer.json',
@@ -35,21 +36,24 @@ const polymerJson = require(config.polymerJsonPath);
 const buildPolymerJson = {
   entrypoint: prependPath(config.tempDirectory, polymerJson.entrypoint),
   shell: prependPath(config.tempDirectory, polymerJson.shell),
-  fragments: polymerJson.fragments.reduce((res, el) => [...res, prependPath(config.tempDirectory, el)], []),
-  sources: polymerJson.sources.reduce((res, el) => [...res, prependPath(config.tempDirectory, el)], []),
+  fragments: polymerJson.fragments.reduce((res, el) => 
+    [...res, prependPath(config.tempDirectory, el)], []),
+  sources: polymerJson.sources.reduce((res, el) =>
+    [...res, prependPath(config.tempDirectory, el)], []),
   extraDependencies: polymerJson.extraDependencies
 };
 
 const normalize = require('./gulp-tasks/normalize.js');
 const template = require('./gulp-tasks/template.js');
-const images = require('./gulp-tasks/images.js');
+//const images = require('./gulp-tasks/images.js');
 const html = require('./gulp-tasks/html.js');
 
 
 function build() {
   return new Promise(resolve => {
     let polymerProject = null;
-    console.log(`Deleting ${config.build.rootDirectory} and ${config.tempDirectory} directories...`);
+    console.log(`Deleting ${config.build.rootDirectory}` +
+      ` and ${config.tempDirectory} directories...`);
 
     del([config.build.rootDirectory, config.tempDirectory])
       .then(() => {
@@ -67,17 +71,17 @@ function build() {
         const sourcesHtmlSplitter = new HtmlSplitter();
         const sourcesStream = polymerProject.sources()
           .pipe(sourcesHtmlSplitter.split())
-          .pipe(gulpif(/\.js$/, uglify()))
+          //.pipe(gulpif(/\.js$/, uglify()))
           .pipe(gulpif(/\.(html|css)$/, cssSlam()))
           .pipe(gulpif(/\.html$/, html.minify()))
-          .pipe(gulpif(/\.(png|gif|jpg|svg)$/, images.minify()))
+          //.pipe(gulpif(/\.(png|gif|jpg|svg)$/, images.minify()))
           .pipe(sourcesHtmlSplitter.rejoin());
 
         const dependenciesHtmlSplitter = new HtmlSplitter();
         const dependenciesStream = polymerProject.dependencies()
           .pipe(dependenciesHtmlSplitter.split())
           // Doesn't work for now
-          .pipe(gulpif(/\.js$/, uglify()))
+          //.pipe(gulpif(/\.js$/, uglify()))
           .pipe(gulpif(/\.(html|css)$/, cssSlam()))
           .pipe(gulpif(/\.html$/, html.minify()))
           .pipe(dependenciesHtmlSplitter.rejoin());
@@ -98,7 +102,11 @@ function build() {
 
         return polymerBuild.addServiceWorker({
           project: polymerProject,
-          buildRoot: prependPath(config.build.rootDirectory, config.tempDirectory).replace('\\', '/'),
+          buildRoot: prependPath(
+            config.build.rootDirectory,
+            config.tempDirectory
+          )
+            .replace('\\', '/'),
           bundled: config.build.bundled,
           swPrecacheConfig
         });
@@ -108,13 +116,19 @@ function build() {
 
         const normalizeStream = normalize(config)
           .on('end', () => {
-            del([prependPath(config.build.rootDirectory, config.tempDirectory)])
+            del([prependPath(
+              config.build.rootDirectory,
+              config.tempDirectory
+            )])
           });
 
         return waitFor(normalizeStream);
       })
       .then(() => {
-        return gulp.src(prependPath(config.build.rootDirectory, 'service-worker.js'))
+        return gulp.src(prependPath(
+          config.build.rootDirectory,
+          'service-worker.js'
+        ))
           .pipe(uglify())
           .pipe(gulp.dest(config.build.rootDirectory));
       })
@@ -123,6 +137,17 @@ function build() {
         resolve();
       });
   });
+}
+
+function lint() {
+  return gulp.src([
+    `scripts/**/*.js`,
+    `src/**/*.{html,js}`,
+    'index.html',
+  ])
+    .pipe(eslint())
+    .pipe(eslint.format(friendlyFormatter))
+    .pipe(eslint.failAfterError());
 }
 
 function waitFor(stream) {
@@ -148,7 +173,9 @@ function copyStatic() {
   return gulp.src([
     'data/**/*.{markdown,md}',
     'images/**/*.{png,gif,jpg,svg}'
-  ], {base: '.'})
+  ], {
+    base: '.'
+  })
     .pipe(gulp.dest(config.tempDirectory));
 }
 
@@ -157,6 +184,9 @@ function prependPath(pre, to) {
 }
 
 gulp.task('default', build);
+//gulp.task('default', gulp.series(lint, build));
+
+gulp.task('lint', lint);
 
 gulp.task('serve', gulp.series(compileTemplate, () => {
   browserSync.init({

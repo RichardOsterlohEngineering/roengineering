@@ -1,12 +1,19 @@
 <script>
+  /* eslint-disable no-unused-vars */
 
-  const UtilsFunctions = subclass => class extends subclass {
+  /* @polymerMixin */
+  const UtilsFunctions = (subclass) => class extends subclass {
     transformToArray(source, attribute) {
-      return source && Object.keys(source).map(key => Object.assign(!!attribute ? { [attribute]: key } : {}, source[key]));
+      return source && Object.keys(source)
+        .map((key) => Object.assign(attribute ? { [attribute]: key } : {}, source[key]));
     }
 
     getDate(date) {
-      return new Date(date).toLocaleString('en-us', { month: 'short', day: 'numeric', year: 'numeric' });
+      return new Date(date).toLocaleString('en-us', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      });
     }
 
     isEmpty(array) {
@@ -18,7 +25,9 @@
     }
 
     generateClassName(value) {
-      return value ? value.replace(/\W+/g, '-').replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase() : '';
+      return value
+        ? value.replace(/\W+/g, '-').replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase()
+        : '';
     }
 
     slice(text, number) {
@@ -27,6 +36,13 @@
 
     isEqual(string1, string2) {
       return string1 === string2;
+    }
+    
+    getVariableColor(value) {
+      if (ShadyCSS) {
+        return ShadyCSS.getComputedStyleValue(this, `--${this.generateClassName(value)}`);
+      }
+      return getComputedStyle(this, `--${this.generateClassName(value)}`);
     }
   };
 </script>

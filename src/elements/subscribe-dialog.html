@@ -29,6 +29,7 @@
             color: #fff;
             font-size: 20px;
             line-height: 1.5;
+            margin-bottom: 32px;
         }
 
         paper-input {
@@ -46,6 +47,10 @@
             height: 80px;
         }
 
+        paper-button {
+            height: 48px;
+        }
+
         .close-button {
             color: var(--secondary-text-color);
         }
@@ -56,7 +61,13 @@
 
         .subscribe-button:hover {
             color: var(--focused-color); 
-        }   
+        }
+
+        .general-error {
+            color: var(--error-color);
+            margin: 0 32px;
+        }
+
 
         @media (min-width: 640px) {  
 
@@ -67,38 +78,35 @@
             paper-input {
                 height: 56px;
             }
-
-            paper-input:first-of-type {
-                margin-top: 32px;
-            }
         }
-
-     
     </style>
 
     <div class="dialog-content" layout vertical>
-        <div class="dialog-header">{$ subscribeBlock.formTitle $}</div>
+        <div class="dialog-header">Get the latest updates, insights and news from us</div>
+        <div hidden$="[[!errorOccurred]]" class="general-error">{$ subscribeBlock.generalError $}</div>
             <paper-input id="firstNameInput"
                          on-touchend="_focus"
-                         label="{$ subscribeBlock.firstName $}"
+                         label="First Name"
                          value="{{firstName}}">
             </paper-input>
             <paper-input id="lastNameInput"
                          on-touchend="_focus"
-                         label="{$ subscribeBlock.lastName $}"
+                         label="Last Name"
                          value="{{lastName}}">
             </paper-input>
             <paper-input id="emailInput" 
                          on-touchend="_focus"
-                         label="{$ subscribeBlock.emailAddress $}"
+                         label="Email Address"
                          value="{{email}}"
-                         required auto-validate$="[[validate]]" error-message="{$ subscribeBlock.emailRequired $}" autocomplete="off">
+                         required auto-validate$="[[validate]]" error-message="Please enter a valid email address."
+                         autocomplete="off">
             </paper-input>   
         <div class="action-buttons" layout horizontal justified>
             <paper-button 
                 class="close-button"
-                on-tap="_closeDialog"
-                >{$ subscribeBlock.close $}</paper-button>
+                on-tap="_closeDialog">
+                Close
+            </paper-button>
 
              <paper-button 
                 class="subscribe-button"
@@ -107,7 +115,8 @@
                 ga-event-category="attendees"
                 ga-event-action="subscribe"
                 ga-event-label="subscribe block">
-                {$ subscribeBlock.subscribe $}</paper-button>
+                Subscribe
+            </paper-button>
         </div>
         
     </div>
@@ -119,12 +128,16 @@
 
     class SubscribeDialog extends ReduxMixin(Polymer.mixinBehaviors([Polymer.IronOverlayBehavior], Polymer.Element)) {
 
-    static get is() {
+        static get is() {
             return 'subscribe-dialog'
         }
 
         static get properties() {
-            return {                
+            return {
+                ui: {
+                    type: Object,
+                    statePath: 'ui',
+                },
                 subscribed: {
                     type: Boolean,
                     statePath: 'subscribed'
@@ -133,9 +146,17 @@
                     type: Boolean,
                     value: true
                 },
+                errorOccurred: {
+                    type: Boolean,
+                    value: false,
+                },
+                keyboardOpened: {
+                    type: Boolean,
+                    value: false,
+                },
                 lastName: String,
                 firstName: String,
-                email: String
+                initialHeight: Number,
             }
         }  
 
@@ -146,9 +167,16 @@
             ];
         }  
 
+        ready() {
+            super.ready();
+            this.initialHeight = window.innerHeight;
+        }
+
         constructor() {
             super();                     
             this.addEventListener('iron-overlay-canceled', this._close);
+            this.addEventListener('iron-resize', this._resize);
+            window.addEventListener('resize', this._windowResize.bind(this));
         }
 
         _close() {
@@ -162,6 +190,9 @@
         }
 
         _handleDialogToggled(opened, data) {
+            if (data) {
+                this.errorOccurred = data.errorOccurred;
+            }
             this._prefillFields(data);
         }
 
@@ -193,6 +224,23 @@
 
         _focus(e) {
              e.target.focus();
+        }
+
+        _windowResize() {
+            this.keyboardOpened = this.ui.viewport.isPhone &&
+            window.innerHeight < this.initialHeight - 100;
+        }
+        _resize(e) {
+            if (this.keyboardOpened) {
+            const header = this.shadowRoot.querySelector('.dialog-header');
+            const headerHeight = header.offsetHeight;
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                this.style.maxHeight = `${this.initialHeight}px`;
+                this.style.top = `-${headerHeight}px`;
+                });
+            }, 10);
+            }
         }
     }
 

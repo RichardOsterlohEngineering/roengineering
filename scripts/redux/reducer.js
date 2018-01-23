@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars,no-undef */
 const uiReducer = (state = initialState.ui, action) => {
   switch (action.type) {
     case TOGGLE_DRAWER:
@@ -17,7 +18,8 @@ const routingReducer = (state = initialState.routing, action) => {
   switch (action.type) {
     case SET_ROUTE:
       return Object.assign({}, state, {
-        route: action.route
+        route: action.route,
+        subRoute: null
       });
     case SET_SUB_ROUTE:
       return Object.assign({}, state, {
@@ -40,6 +42,7 @@ const heroReducer = (state = initialState.hero, action) => {
 const dialogsReducer = (state = initialState.dialogs, action) => {
   switch (action.type) {
     case OPEN_DIALOG:
+    case SET_DIALOG_DATA:
       return Object.assign({}, state, action.dialog);
     case CLOSE_DIALOG:
       return Object.assign({}, state, {
@@ -91,6 +94,17 @@ const subscribeReducer = (state = initialState.subscribed, action) => {
   switch (action.type) {   
     case SUBSCRIBE:
       return action.subscribed
+    default:
+      return state;
+  }
+};
+
+const toastReducer = (state = initialState.toast, action) => {
+  switch (action.type) {
+    case SHOW_TOAST:
+      return action.toast;
+    case HIDE_TOAST:
+      return initialState.toast;
     default:
       return state;
   }
